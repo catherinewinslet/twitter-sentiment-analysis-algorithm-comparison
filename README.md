@@ -21,15 +21,15 @@ Web scraping, web harvesting, or web data extraction is data scraping used for e
 
 #### Step 2: Pre-Processing of data
 ##### REMOVING PUNCTUATIONS
-Using regular expression(regex), remove punctuation, hashtags and @-mentions from each tweet.
+Using regular expression(regex), remove punctuation, hashtags and @-mentions from each tweet.</br>
 ```train_data['processed_tweets'] = train_data['tweet'].str.replace('[^A-Za-z0-9 ]', '')```
 
 ##### TOKENIZATION
-In order to use textual data for predictive modeling, the text must be parsed to remove certain words – this process is called tokenization.
+In order to use textual data for predictive modeling, the text must be parsed to remove certain words – this process is called tokenization.</br>
 ```train_data['processed_tweets'] = train_data['processed_tweets'].apply(lambda x: x.split())```
 
 ##### STEMMING
-Stemming is the process of reducing inflected words to their word stem, base or root form—generally a written word form.
+Stemming is the process of reducing inflected words to their word stem, base or root form—generally a written word form.</br>
 ```
 from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer("english")
@@ -37,51 +37,61 @@ train_data['processed_tweets']= train_data['processed_tweets'].apply(lambda x: [
 ```
 
 ##### LEMMATIZATION
-Lemmatisation in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form.
+Lemmatisation in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form.</br>
 ```
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 stopwords = nltk.corpus.stopwords.words('english')
 
-replaces [running, ran, run] with run
+###replaces [running, ran, run] with run
 ```
 
 ##### COUNT VECTORIZATION
-Scikit-learn’s CountVectorizer is used to convert a collection of text documents to a vector of term/token counts.
+Scikit-learn’s CountVectorizer is used to convert a collection of text documents to a vector of term/token counts.</br>
 ```count_vect = CountVectorizer(stop_words='english')```
 
 ##### TFIDF TRANSFORMER
-Tf-idf transformers aim to convert a collection of raw documents to a matrix of TF-IDF features.
+Tf-idf transformers aim to convert a collection of raw documents to a matrix of TF-IDF features.</br>
 ```transformer = TfidfTransformer(norm='l2',sublinear_tf=True)```
 
 #### Step 3: Fitting and training the model
 ##### Implemented Algorithms
 ###### DECISION TREES
+A decision tree is a flowchart-like structure in which each internal node represents a "test" on an attribute (e.g. whether a coin flip comes up heads or tails), each branch represents the outcome of the test, and each leaf node represents a class label (decision taken after computing all attributes).
 ###### RANDOM FOREST CLASSIFIER
+Random forests or random decision forests are an ensemble learning method for classification, regression and other tasks that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes or mean prediction of the individual trees.
 ###### K-NEAREST NEIGHBOURS
+In pattern recognition, the k-nearest neighbors algorithm is a non-parametric method proposed by Thomas Cover used for classification and regression.
 ###### LOGISTIC REGRESSION
+Logistic regression is a statistical model that in its basic form uses a logistic function to model a binary dependent variable, although many more complex extensions exist. In regression analysis, logistic regression (or logit regression) is estimating the parameters of a logistic model (a form of binary regression).
 ###### SUPPORT VECTOR MACHINE
+In machine learning, support-vector machines are supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis.
 
 #### Step 4: Model prediction and result comparison
 ###### DECISION TREES
-```accuracy_score(y_test,predDT)
+```
+accuracy_score(y_test,predDT)
 output: 0.94
 ```
 ###### RANDOM FOREST CLASSIFIER
-```accuracy_score(y_test,predRF)
+```
+accuracy_score(y_test,predRF)
 output: 0.96
 ```
 ###### K-NEAREST NEIGHBOURS
-```accuracy_score(y_test,predKNN)
+```
+accuracy_score(y_test,predKNN)
 output: 0.93
 ```
 ###### LOGISTIC REGRESSION
-```accuracy_score(y_test,predLR)
+```
+accuracy_score(y_test,predLR)
 output: 0.94
 ```
 ###### SUPPORT VECTOR MACHINE
-```accuracy_score(y_test,predSVM)
+```
+accuracy_score(y_test,predSVM)
 output: 0.95
 ```
 #### Conclusion
