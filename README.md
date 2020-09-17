@@ -17,20 +17,43 @@ A rule-based system uses a set of human-crafted rules to help identify subjectiv
 
 #### Step 1: Obtaining the Dataset
 ##### WEB SCRAPING
-Web scraping, web harvesting, or web data extraction is data scraping used for extracting data from websites.
+Web scraping, web harvesting, or web data extraction is data scraping used for extracting data from websites. Using twitter OAuthHandler, obtain tweets from given date to current about any particular hashtag. Save the dataset to dataset directory as test_tweets.csv
 
 #### Step 2: Pre-Processing of data
 ##### REMOVING PUNCTUATIONS
+Using regular expression(regex), remove punctuation, hashtags and @-mentions from each tweet.
+```train_data['processed_tweets'] = train_data['tweet'].str.replace('[^A-Za-z0-9 ]', '')```
+
 ##### TOKENIZATION
 In order to use textual data for predictive modeling, the text must be parsed to remove certain words – this process is called tokenization.
+```train_data['processed_tweets'] = train_data['processed_tweets'].apply(lambda x: x.split())```
+
 ##### STEMMING
 Stemming is the process of reducing inflected words to their word stem, base or root form—generally a written word form.
+```
+from nltk.stem.snowball import SnowballStemmer
+stemmer = SnowballStemmer("english")
+train_data['processed_tweets']= train_data['processed_tweets'].apply(lambda x: [stemmer.stem(i) for i in x])
+```
+
 ##### LEMMATIZATION
 Lemmatisation in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form.
+```
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+stopwords = nltk.corpus.stopwords.words('english')
+
+replaces [running, ran, run] with run
+```
+
 ##### COUNT VECTORIZATION
 Scikit-learn’s CountVectorizer is used to convert a collection of text documents to a vector of term/token counts.
+```count_vect = CountVectorizer(stop_words='english')```
+
 ##### TFIDF TRANSFORMER
 Tf-idf transformers aim to convert a collection of raw documents to a matrix of TF-IDF features.
+```transformer = TfidfTransformer(norm='l2',sublinear_tf=True)```
 
 #### Step 3: Fitting and training the model
 ##### Implemented Algorithms
@@ -42,12 +65,27 @@ Tf-idf transformers aim to convert a collection of raw documents to a matrix of 
 
 #### Step 4: Model prediction and result comparison
 ###### DECISION TREES
+```accuracy_score(y_test,predDT)
+output: 0.94
+```
 ###### RANDOM FOREST CLASSIFIER
+```accuracy_score(y_test,predRF)
+output: 0.96
+```
 ###### K-NEAREST NEIGHBOURS
+```accuracy_score(y_test,predKNN)
+output: 0.93
+```
 ###### LOGISTIC REGRESSION
+```accuracy_score(y_test,predLR)
+output: 0.94
+```
 ###### SUPPORT VECTOR MACHINE
-
+```accuracy_score(y_test,predSVM)
+output: 0.95
+```
 #### Conclusion
+Among all other techniques used, Random Forest Classifier has performed best with the highest accuracy. One reason why RF works well is because the algorithm can look past and handle the missing values in the tweets.
 
 ### Limitations of Sentiment Analysis
 * One of the downsides of using lexicons is that people express emotions in different ways. Some may express sarcasm and irony in the statements.
